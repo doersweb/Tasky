@@ -23,8 +23,13 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
-            isMinifyEnabled = true
+        release {
+            buildConfigField("String", "BASE_URL", "https://tasky.pl-coding.com/")
+            buildConfigField("String", "X_API_KEY", "${properties.get("api_key")}")
+        }
+        debug {
+            buildConfigField("String", "BASE_URL", "https://tasky.pl-coding.com/")
+            buildConfigField("String", "X_API_KEY", "${properties.get("api_key")}")
         }
     }
     compileOptions {
@@ -36,6 +41,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = Compose.composeCompilerVersion
