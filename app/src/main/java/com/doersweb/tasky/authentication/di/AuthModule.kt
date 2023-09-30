@@ -3,16 +3,18 @@ package com.doersweb.tasky.authentication.di
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import androidx.core.os.BuildCompat
+import com.doersweb.calorietracker.BuildConfig
 import com.doersweb.tasky.authentication.data.prefs.AuthPreferences
 import com.doersweb.tasky.authentication.data.prefs.AuthPreferencesImpl
 import com.doersweb.tasky.authentication.data.remote.AuthenticationApi
-import com.doersweb.tasky.data.remote.repo.authentication.AuthenticationRepo
-import com.doersweb.tasky.data.remote.repo.authentication.AuthenticationRepoImpl
+import com.doersweb.tasky.authentication.data.remote.repo.AuthenticationRepo
+import com.doersweb.tasky.authentication.data.remote.repo.AuthenticationRepoImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -41,7 +43,7 @@ object AuthModule {
     fun providesAuthApi(
         okHttpClient: OkHttpClient
     ): AuthenticationApi = Retrofit.Builder()
-        .baseUrl("")
+        .baseUrl(BuildConfig.BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create())
         .client(okHttpClient)
         .build()
@@ -58,9 +60,13 @@ object AuthModule {
     @Singleton
     fun providesAuthRepo(
         authenticationApi: AuthenticationApi,
-        authPreferences: AuthPreferences
+        authPreferences: AuthPreferences,
+        dispatcher: CoroutineDispatcher
     ): AuthenticationRepo = AuthenticationRepoImpl(
-        authenticationApi, authPreferences
+        authenticationApi, authPreferences, dispatcher
     )
+
+    @Provides
+    fun provideDispatcher(): CoroutineDispatcher = Dispatchers.IO
 
 }
