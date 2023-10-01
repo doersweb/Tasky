@@ -9,6 +9,7 @@ import com.doersweb.tasky.authentication.data.prefs.AuthPreferencesImpl
 import com.doersweb.tasky.authentication.data.remote.AuthenticationApi
 import com.doersweb.tasky.authentication.data.remote.repo.AuthenticationRepo
 import com.doersweb.tasky.authentication.data.remote.repo.AuthenticationRepoImpl
+import com.doersweb.tasky.data.util.ApiKeyInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -52,9 +53,7 @@ object AuthModule {
     @Provides
     @Singleton
     fun providesOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }).build()
+        .addInterceptor(ApiKeyInterceptor(BuildConfig.X_API_KEY)).build()
 
     @Provides
     @Singleton
