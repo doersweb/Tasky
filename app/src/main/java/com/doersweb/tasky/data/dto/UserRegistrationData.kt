@@ -1,6 +1,6 @@
-package com.doersweb.tasky.interactor.dto
+package com.doersweb.tasky.data.dto
 
-data class RegisterUser(
+data class UserRegistrationData(
     val fullName: String,
     val email: String,
     val password: String
