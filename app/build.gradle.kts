@@ -67,6 +67,7 @@ dependencies {
 
     implementation(Core.coreKtx)
     implementation(DaggerHilt.hiltAndroid)
+    implementation("androidx.core:core-ktx:+")
     ksp(DaggerHilt.hiltCompiler)
 
     implementation(Retrofit.okHttp)
