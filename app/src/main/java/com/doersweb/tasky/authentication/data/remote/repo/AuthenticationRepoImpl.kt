@@ -6,22 +6,23 @@ import com.doersweb.tasky.data.dto.UserRegistrationData
 import com.doersweb.tasky.data.dto.SignInUser
 import com.doersweb.tasky.data.remote.response.SigninResponse
 import com.doersweb.tasky.data.util.ApiResponse
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import com.doersweb.tasky.data.util.ErrorType
+import kotlinx.coroutines.CancellationException
 import retrofit2.HttpException
 
 class AuthenticationRepoImpl(
     private val authenticationApi: AuthenticationApi,
-    private val authPreferences: AuthPreferences,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val authPreferences: AuthPreferences
 ) : AuthenticationRepo {
     override suspend fun signIn(signInUser: SignInUser): ApiResponse<SigninResponse> = try {
         val result = authenticationApi.signIn(signInUser)
+        authPreferences.saveToken(result.token)
         ApiResponse.Success(result)
     } catch (exception: Exception) {
         when (exception) {
-            is HttpException -> ApiResponse.Error(exception.message())
-            else -> throw exception
+            is CancellationException -> throw exception
+            is HttpException -> ApiResponse.Error(ErrorType.GenericMessage(exception.message()))
+            else -> ApiResponse.Error(ErrorType.GeneralException)
         }
     }
 
@@ -31,8 +32,9 @@ class AuthenticationRepoImpl(
             ApiResponse.Success("Success")
         } catch (exception: Exception) {
             when (exception) {
-                is HttpException -> ApiResponse.Error(exception.message())
-                else -> throw exception
+                is CancellationException -> throw exception
+                is HttpException -> ApiResponse.Error(ErrorType.GenericMessage(exception.message()))
+                else -> ApiResponse.Error(ErrorType.GeneralException)
             }
         }
 

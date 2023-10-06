@@ -14,7 +14,7 @@
         android:name="com.doersweb.tasky.TaskyApplication"
         tools:targetApi="31">
         <activity
-            android:name="com.doersweb.tasky.MainActivity"
+            android:name="com.doersweb.tasky.ui.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Tasky">

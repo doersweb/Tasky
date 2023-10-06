@@ -2,10 +2,11 @@ package com.doersweb.tasky.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+val PrimaryBlack = Color(0xFF16161C)
+val EventDarkGreen = Color(0xff279f70)
+val TaskLightGreen = Color(0xFFCAEF45)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val LightGrey = Color(0xFFf2f3f7)
+val CalendarOrange = Color(0xFFFDEFA8)
+val AddEditLightBlue = Color(0xFFB7C6DE)
+val EditTextGrey = Color(0xFFA1A4B2)
